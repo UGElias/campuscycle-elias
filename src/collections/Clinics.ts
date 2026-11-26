@@ -2,6 +2,8 @@ import type { CollectionConfig } from 'payload'
 import { publicContent } from '../access'
 import { checkUniqueSlug, preventDependentDeletion } from '../lib/modelIntegrity'
 import { day, slug, startTime } from './fields'
+import { arrayBuffer } from 'stream/consumers'
+import { array } from 'payload/shared'
 
 // The Saturday repair clinic: when and where it happens. Its bookable times are in Time Slots.
 export const Clinics: CollectionConfig = {
@@ -46,7 +48,11 @@ export const Clinics: CollectionConfig = {
       },
     },
     // Add new clinic fields here, above the time slots list, so they also show above it in /admin.
-
+    {
+      name: 'whatToBring',
+      type: 'array',
+      fields: [{ name: 'item', type: 'text', required: true}]
+    },
     // The reverse side (a join) of the one-to-many: one clinic has many time slots. The link is stored
     // once, in each time slot's "clinic" field.
     {
